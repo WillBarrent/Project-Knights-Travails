@@ -10,5 +10,5 @@ export function generatePositions(from) {
 }
 
 export function getOffTheBoard(pos) {
-    return pos[0] < 0 || pos[1] < 0 || pos[0] > 8 || pos[1] > 8;
+    return pos[0] < 0 || pos[1] < 0 || pos[0] > 3 || pos[1] > 3;
 }
