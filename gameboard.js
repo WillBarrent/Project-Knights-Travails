@@ -1,4 +1,4 @@
-export function generatePositions(from) {
+export function generatePositions(from, level = 0) {
     const i = from[0], j = from[1];
 
     return [
