@@ -1,16 +1,16 @@
-import { generatePositions, getOffTheBoard } from "./gameboard.js";
 import { LinkedList } from "./linkedList.js";
 
-export function buildGraph(from, to, graph = []) {
+export function buildGraph(from, to, graph = [], level = 0) {
     if (`${from[0]}, ${from[1]}` === `${to[0]}, ${to[1]}` || searchSimilar(graph, from)) {
         return;
     }
-    const array = [[from, fillList(from, graph)]];
+    const array = [[from, fillList(from, graph), level + 1]];
+    array[0][2] = changeLevel(...array, graph, level + 1);
     graph = [...graph, ...array];
 
     let temp = array[0][1].headNode();
     while (temp !== null) {
-        const newGraph = buildGraph(Array.from(temp.value).filter(v => v >= 0).map(v => +v), to, graph)
+        const newGraph = buildGraph(Array.from(temp.value).filter(v => v >= 0).map(v => +v), to, graph, level + 1)
         if ((newGraph instanceof Array)) {
             graph = [...newGraph]
         }
@@ -20,9 +20,23 @@ export function buildGraph(from, to, graph = []) {
     return graph;
 }
 
-function fillList(from, graph = []) {
+export function changeLevel(array, graph, currentLevel) {
+    const value = `[${array[0][0]},${array[0][1]}]`;
+
+    graph.forEach(v => {
+        const findValue = v[1].find(value);
+        if (findValue !== null && v[2] < currentLevel) {
+            currentLevel = v[2] + 1;
+        }
+    });
+    
+    return currentLevel;
+}
+
+function fillList(from, graph = [], level = 0) {
     const list = new LinkedList();
-    const positions = generatePositions(from)
+        
+    const positions = generatePositions(from, level)
         .filter(pos => {
             return !getOffTheBoard(pos) && !searchSimilar(graph, pos);
         })
