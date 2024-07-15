@@ -1,3 +1,4 @@
+import { generatePositions, getOffTheBoard } from "./gameboard.js";
 import { LinkedList } from "./linkedList.js";
 
 export function buildGraph(from, to, graph = [], level = 0) {
