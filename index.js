@@ -1,8 +1,9 @@
 import { buildGraph } from './graph.js'
+import { findShortestPath } from './search.js';
 
 function knightTravails(from, to) {
     const graph = buildGraph(from, to);
-    console.log(graph)
+    const shortestPath = findShortestPath(graph, to);
 }
 
 knightTravails([0, 0], [4, 4])
